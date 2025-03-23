@@ -27,6 +27,14 @@ RUN apt-get update -y && apt-get install -y build-essential git \
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
   && apt-get install -y nodejs
 
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  git \
+  curl \
+  sqlite3 \
+  libsqlite3-dev \
+  npm
+
 # prepare build dir
 WORKDIR /app
 
