@@ -24,16 +24,27 @@ FROM ${BUILDER_IMAGE} as builder
 RUN apt-get update -y && apt-get install -y build-essential git \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-  && apt-get install -y nodejs
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    ca-certificates
 
+# Add NodeSource GPG key
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key \
+    | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg
+
+# Add Node.js 18 repo manually
+RUN echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x bullseye main" \
+    > /etc/apt/sources.list.d/nodesource.list
+
+# Install Node.js
+RUN apt-get update && apt-get install -y nodejs
 RUN apt-get update && apt-get install -y \
   build-essential \
   git \
   curl \
   sqlite3 \
-  libsqlite3-dev \
-  npm
+  libsqlite3-dev
 
 # prepare build dir
 WORKDIR /app
@@ -64,7 +75,7 @@ COPY assets assets
 
 WORKDIR assets
 RUN node --version
-RUN npm i -g yarn; yarn set version stable
+RUN npm install -g yarn
 RUN yarn install
 WORKDIR ../
 

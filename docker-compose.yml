@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  web_socket_server:
+    image: loofgodd/web_socket_server:latest
+    container_name: web_socket_server
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      PHX_SERVER: "true"
+      SECRET_KEY_BASE: "v7Dbii3JGNRchIfPgUEufDtmVUVuQy/vQDcbqonuwsTsCBhqD1bG0699nBTQCKmf"
+      DATABASE_PATH: "/app/web_socket_server.db"
+    volumes:
+      - ./web_socket_data/web_socket_server.db:/app/web_socket_server.db
