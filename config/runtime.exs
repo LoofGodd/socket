@@ -24,7 +24,7 @@ config :web_socket_server,
 config :web_socket_server,
        :backend_url,
        System.get_env("BACKEND_URL") ||
-         "https://api-luyuy.snm24.com/api"
+         "https://apiluyluy88.skapi388.com/api"
 
 if System.get_env("PHX_SERVER") do
   config :web_socket_server, WebSocketServerWeb.Endpoint, server: true
