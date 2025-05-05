@@ -32,38 +32,38 @@ defmodule WebSocketServerWeb.UserBalanceChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(payload) do
-    case verify_token(payload["token"], payload["username"]) do
-      {:ok, _value} -> true
-      {:error, _value} -> false
-    end
-  end
+  # defp authorized?(payload) do
+  #   case verify_token(payload["token"], payload["username"]) do
+  #     {:ok, _value} -> true
+  #     {:error, _value} -> false
+  #   end
+  # end
 
-  # Helper function to verify token using Finch
-  defp verify_token(token, username) do
-    # Replace with your backend URL
-    Application.get_env(:web_socket_server, :phoenix_secret)
+  # # Helper function to verify token using Finch
+  # defp verify_token(token, username) do
+  #   # Replace with your backend URL
+  #   Application.get_env(:web_socket_server, :phoenix_secret)
 
-    url =
-      "#{Application.get_env(:web_socket_server, :backend_url)}/v1/verify-token?username=#{username}"
+  #   url =
+  #     "#{Application.get_env(:web_socket_server, :backend_url)}/v1/verify-token?username=#{username}"
 
-    headers = [{"Authorization", "Bearer #{token}"}]
+  #   headers = [{"Authorization", "Bearer #{token}"}]
 
-    # Build and send the HTTP request with Finch
-    request = Finch.build(:get, url, headers)
-    Logger.info("Backend rejected token for username #{url} ")
+  #   # Build and send the HTTP request with Finch
+  #   request = Finch.build(:get, url, headers)
+  #   Logger.info("Backend rejected token for username #{url} ")
 
-    case Finch.request(request, WebSocketServer.Finch) do
-      {:ok, %Finch.Response{status: status}} when status >= 400 ->
-        Logger.info("Backend rejected token for username #{url}: HTTP #{status}")
-        {:error, :invalid_token}
+  #   case Finch.request(request, WebSocketServer.Finch) do
+  #     {:ok, %Finch.Response{status: status}} when status >= 400 ->
+  #       Logger.info("Backend rejected token for username #{url}: HTTP #{status}")
+  #       {:error, :invalid_token}
 
-      {:ok, %Finch.Response{}} ->
-        {:ok, :success}
+  #     {:ok, %Finch.Response{}} ->
+  #       {:ok, :success}
 
-      {:error, reason} ->
-        Logger.error("Failed to reach backend: #{inspect(reason)}")
-        {:error, :verification_failed}
-    end
-  end
+  #     {:error, reason} ->
+  #       Logger.error("Failed to reach backend: #{inspect(reason)}")
+  #       {:error, :verification_failed}
+  #   end
+  # end
 end
