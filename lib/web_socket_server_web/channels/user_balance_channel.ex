@@ -3,11 +3,13 @@ defmodule WebSocketServerWeb.UserBalanceChannel do
   require Logger
   @impl true
   def join("user:balance:" <> _user_id, _params, socket) do
-    if authorized?(socket.assigns[:params]) do
-      {:ok, socket}
-    else
-      {:error, %{reason: "unauthorized"}}
-    end
+    {:ok, socket}
+
+    # if authorized?(socket.assigns[:params]) do
+    #   {:ok, socket}
+    # else
+    #   {:error, %{reason: "unauthorized"}}
+    # end
   end
 
   def join(_topic, _payload, _socket) do
