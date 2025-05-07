@@ -2,7 +2,7 @@ defmodule WebSocketServerWeb.UserBalanceChannel do
   use WebSocketServerWeb, :channel
   require Logger
   @impl true
-  def join("user:balance:" <> _token, _params, socket) do
+  def join("user:balance:" <> _user_id, _params, socket) do
     {:ok, socket}
   end
 
