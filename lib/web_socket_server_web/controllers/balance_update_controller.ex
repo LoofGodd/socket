@@ -15,7 +15,6 @@ defmodule WebSocketServerWeb.BalanceUpdateController do
 
   defp authorize(conn, _opts) do
     expected_token = "Bearer #{Application.get_env(:web_socket_server, :phoenix_secret)}"
-    IO.inspect(get_req_header(conn, "authorization") == [expected_token])
 
     if get_req_header(conn, "authorization") == [expected_token] do
       conn
